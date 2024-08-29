@@ -10,13 +10,15 @@ import gdown
 # %%
 pipeline = joblib.load('xgboost_pipe.joblib')
 
-# %%
-url = f'https://drive.google.com/file/d/1n1n7RWlmNERfsby6zcKVNbnMEFl_W1w2/view?usp=sharing'
-gdown.download(url, 'input2.csv', fuzzy=True, quiet=True)
 
-df = pd.read_csv('input2.csv')
-df = df.iloc[:,1:]
-df.head()
+@st.cache_data
+def load_data():
+    url = f'https://drive.google.com/uc?id=1n1n7RWlmNERfsby6zcKVNbnMEFl_W1w2'
+    gdown.download(url, 'input2.csv', fuzzy=True, quiet=True)
+    df = pd.read_csv('input2.csv')
+    return df.iloc[:, 1:]
+
+df = load_data()
 
 features = df.columns.tolist()
 
@@ -141,11 +143,13 @@ def app():
             'hour': [hour]
         })
 
-    pred = pipeline.predict(user_input)
-    if pred[0] == 1:
-        st.markdown("<p style='color:red; font-size:30px'><b>This flight is likely to be DELAYED</b></p>", unsafe_allow_html=True)
-    else:
-        st.markdown("<p style='color:green; font-size:30px'><b>This flight is likely to be ON TIME</b></p>", unsafe_allow_html=True)              
+        if st.button('Predict'):
+            pred = pipeline.predict(user_input)
+            if pred[0] == 1:
+                st.markdown("<p style='color:red; font-size:30px'><b>This flight is likely to be DELAYED</b></p>", unsafe_allow_html=True)
+            else:
+                st.markdown("<p style='color:green; font-size:30px'><b>This flight is likely to be ON TIME</b></p>", unsafe_allow_html=True)
+ 
 app()
 
     
