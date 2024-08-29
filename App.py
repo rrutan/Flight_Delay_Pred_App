@@ -12,7 +12,7 @@ pipeline = joblib.load('xgboost_pipe.joblib')
 
 # %%
 url = f'https://drive.google.com/file/d/1n1n7RWlmNERfsby6zcKVNbnMEFl_W1w2/view?usp=sharing'
-gdown.download(url, 'input2.csv', quiet=False)
+gdown.download(url, 'input2.csv', fuzzy=True, quiet=True)
 
 df = pd.read_csv('input2.csv')
 df = df.iloc[:,1:]
