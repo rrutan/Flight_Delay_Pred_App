@@ -143,12 +143,12 @@ def app():
             'hour': [hour]
         })
 
-        if st.button('Predict'):
-            pred = pipeline.predict(user_input)
-            if pred[0] == 1:
-                st.markdown("<p style='color:red; font-size:30px'><b>This flight is likely to be DELAYED</b></p>", unsafe_allow_html=True)
-            else:
-                st.markdown("<p style='color:green; font-size:30px'><b>This flight is likely to be ON TIME</b></p>", unsafe_allow_html=True)
+    if st.button('Predict'):
+        pred = pipeline.predict(user_input)
+        if pred[0] == 1:
+            st.markdown("<p style='color:red; font-size:30px'><b>This flight is likely to be DELAYED</b></p>", unsafe_allow_html=True)
+        else:
+            st.markdown("<p style='color:green; font-size:30px'><b>This flight is likely to be ON TIME</b></p>", unsafe_allow_html=True)
  
 app()
 
